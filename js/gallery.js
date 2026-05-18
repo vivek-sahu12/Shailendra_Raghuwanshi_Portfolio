@@ -244,11 +244,15 @@ const albumTranslations = {
       albumsGridMore.classList.add('is-visible');
       albumsGridMore.setAttribute('aria-hidden', 'false');
       viewMoreBtn.classList.add('is-expanded');
+      btnSpan.setAttribute('data-hi', 'कम दिखाएं');
+      btnSpan.setAttribute('data-en', 'View less');
       btnSpan.textContent = isHi ? 'कम दिखाएं' : 'View less';
     } else {
       albumsGridMore.classList.remove('is-visible');
       albumsGridMore.setAttribute('aria-hidden', 'true');
       viewMoreBtn.classList.remove('is-expanded');
+      btnSpan.setAttribute('data-hi', 'और एल्बम देखें');
+      btnSpan.setAttribute('data-en', 'View more albums');
       btnSpan.textContent = isHi ? 'और एल्बम देखें' : 'View more albums';
 
       // Scroll back up to gallery start smoothly
@@ -422,6 +426,24 @@ const albumTranslations = {
   }
 
   // Init
+  
+  window.Gallery = {
+    onLanguageChange: function() {
+      if (currentAlbumKey) {
+          const isHi = document.documentElement.lang === 'hi';
+          const translatedAlbumName = isHi ? (albumTranslations[currentAlbumKey] || currentAlbumKey) : currentAlbumKey;
+          const albumViewTitle = document.getElementById('albumViewTitle');
+          if (albumViewTitle) {
+              albumViewTitle.innerHTML = `<span class="album-breadcrumb">
+                <span class="hi-text">${isHi ? 'मुखपृष्ठ' : 'Home'}</span> > 
+                <span class="hi-text">${isHi ? 'गैलरी' : 'Gallery'}</span> > 
+                <span class="current" data-en="${currentAlbumKey}" data-hi="${albumTranslations[currentAlbumKey] || currentAlbumKey}">${translatedAlbumName}</span>
+              </span>`;
+          }
+      }
+    }
+  };
   document.addEventListener('DOMContentLoaded', initGallery);
+
 
 })();

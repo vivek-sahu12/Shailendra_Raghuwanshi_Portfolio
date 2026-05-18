@@ -64,6 +64,8 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 body {
@@ -73,6 +75,8 @@ body {
   color: var(--text);
   background: var(--ivory);
   overflow-x: hidden;
+  width: 100%;
+  position: relative;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -801,7 +805,8 @@ section[id] {
   justify-content: center;
   animation: heroImageEnter 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   opacity: 0;
-  order: -1; /* Move image to the left on desktop */
+  order: -1;
+  /* Move image to the left on desktop */
 }
 
 @keyframes heroImageEnter {
@@ -2370,12 +2375,17 @@ a.contact-value:hover {
   margin-bottom: 18px;
 }
 
-.footer-links,
+.footer-links {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 24px;
+}
+
 .footer-contact {
   list-style: none;
 }
 
-.footer-links li,
 .footer-contact li {
   margin-bottom: 10px;
 }
@@ -2618,7 +2628,7 @@ a.contact-value:hover {
 /* ---- Scroll to top ---- */
 .scroll-to-top {
   position: fixed;
-  bottom: 96px;
+  bottom: 24px;
   right: 24px;
   width: 48px;
   height: 48px;
@@ -2726,7 +2736,8 @@ a.contact-value:hover {
 
 @media (max-width: 600px) {
   .social-work-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile as requested */
+    grid-template-columns: repeat(2, 1fr);
+    /* 2 columns on mobile as requested */
     gap: 16px;
   }
 }
@@ -2750,7 +2761,10 @@ a.contact-value:hover {
 .social-card::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: linear-gradient(135deg, rgba(255, 102, 0, 0.03) 0%, transparent 100%);
   z-index: -1;
   opacity: 0;
@@ -2831,23 +2845,28 @@ a.contact-value:hover {
   .social-card {
     padding: 24px 16px;
   }
+
   .social-card-icon {
     width: 48px;
     height: 48px;
     margin-bottom: 16px;
   }
+
   .social-card-icon svg {
     width: 24px;
     height: 24px;
   }
+
   .social-card-title {
     font-size: 1rem;
     margin-bottom: 8px;
   }
+
   .social-card-desc {
     font-size: 0.8rem;
     margin-bottom: 16px;
   }
+
   .social-card-stat {
     font-size: 0.75rem;
     padding: 4px 10px;
@@ -2871,4 +2890,251 @@ a.contact-value:hover {
   html {
     scroll-behavior: auto;
   }
+}
+
+/* ================================================
+   MOBILE OVERFLOW FIX
+   ALL rules scoped to ≤768px — desktop is untouched
+   ================================================ */
+
+/* Hard clip on html/body — safe on all screen sizes */
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Images: prevent stretching — height:auto only when no explicit height is set */
+img {
+  max-width: 100%;
+}
+
+/* Decorative profile frames: always pointer-events-none */
+.profile-frame,
+.profile-frame-inner {
+  pointer-events: none;
+}
+
+/* ---- Mobile only: 768px and below ---- */
+@media (max-width: 768px) {
+
+  /* All major layout containers stay within viewport */
+  section[id],
+  .container,
+  .nav-container,
+  .hero-container,
+  .about-grid,
+  .about-content,
+  .timeline,
+  .cards-grid,
+  .albums-grid,
+  .albums-grid-more,
+  .album-view,
+  .social-work-grid,
+  .seva-cards-container,
+  .counters-grid,
+  .bio-cards-grid,
+  .contact-grid,
+  .footer-grid,
+  footer {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Mobile menu clipped to viewport width */
+  .mobile-menu {
+    max-width: 100vw;
+  }
+
+  /* Gallery: 2-column grid on mobile (looks better than 1-col) */
+  .albums-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+/* ---- Small phones: 480px and below ---- */
+@media (max-width: 480px) {
+
+  /* Container padding */
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  /* Hero */
+  .hero {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .hero-container {
+    padding-left: 16px;
+    padding-right: 16px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  /* Profile container: constrain on small phones */
+  .hero-profile-container {
+    width: min(200px, 80vw) !important;
+    min-width: unset !important;
+    max-width: 80vw !important;
+  }
+
+  /* Decorative frames: reduce inset so they don't clip beyond screen */
+  .profile-frame {
+    inset: -4px;
+  }
+
+  .profile-frame-inner {
+    inset: -2px;
+  }
+
+  /* Hero buttons: stack vertically on tiny screens */
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .hero-buttons .btn {
+    width: 100%;
+    max-width: 280px;
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* Quick stats: wrap and center */
+  .hero-quick-stats {
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .quick-stat {
+    min-width: 0;
+  }
+
+  /* Gallery: keep 2-col on 480px, don't drop to 1 */
+  .albums-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  /* Social work cards */
+  .social-work-grid {
+    gap: 12px;
+  }
+
+  .social-card {
+    padding: 20px 12px;
+  }
+
+  .social-card-title {
+    font-size: 0.9rem;
+  }
+
+  .social-card-desc {
+    font-size: 0.75rem;
+  }
+
+  /* Timeline */
+  .timeline {
+    overflow: hidden;
+  }
+
+  .timeline-card {
+    max-width: calc(100vw - 80px);
+    box-sizing: border-box;
+  }
+
+  /* Counters */
+  .counters-grid {
+    gap: 10px;
+  }
+
+  .counter-card {
+    padding: 20px 12px;
+  }
+
+  /* Bio */
+  .bio-detail-row {
+    word-break: break-word;
+  }
+
+  /* Stat badge */
+  .social-card-stat {
+    white-space: normal;
+    word-break: break-word;
+  }
+}
+
+/* ---- Tiny phones: 360px and below ---- */
+@media (max-width: 360px) {
+
+  html {
+    font-size: 15px;
+  }
+
+  .hero-name {
+    font-size: 1.6rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.78rem;
+  }
+
+  .hero-badge {
+    font-size: 0.7rem;
+    padding: 6px 12px;
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* Profile slightly smaller on 320px */
+  .hero-profile-container {
+    width: min(170px, 75vw) !important;
+    max-width: 75vw !important;
+  }
+
+  /* Gallery: still 2-col but tighter gap */
+  .albums-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  /* Timeline card */
+  .timeline-card {
+    max-width: calc(100vw - 70px);
+    padding: 16px;
+  }
+
+  /* Social cards */
+  .social-card {
+    padding: 16px 10px;
+  }
+}
+
+.social-whatsapp {
+  background: #25D366;
+  color: #fff;
+}
+
+.social-whatsapp:hover {
+  background: #1ebe5b;
+  transform: translateY(-3px);
+}
+
+.map-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.map-link:hover {
+  color: #ff6b00;
+  text-decoration: underline;
 }
