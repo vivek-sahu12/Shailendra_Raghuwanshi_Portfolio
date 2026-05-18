@@ -73,15 +73,24 @@ const galleryAlbums = {
   'use strict';
 
   // Constants
-  
-const albumTranslations = {
-  "Media Coverage": "मीडिया कवरेज",
-  "Public Rally Events": "जनसभा एवं रैली",
-  "Cleanliness Campaign": "स्वच्छता अभियान",
-  "Community Distribution Program": "सामुदायिक वितरण कार्यक्रम",
-  "Tree Plantation Drive": "वृक्षारोपण अभियान",
-  "Social & Public Activities": "सामाजिक एवं जन कार्य"
-};
+
+  const albumTranslations = {
+    "Media Coverage": "मीडिया कवरेज",
+    "Public Rally Events": "जनसभा एवं रैली",
+    "Cleanliness Campaign": "स्वच्छता अभियान",
+    "Community Distribution Program": "सामुदायिक वितरण कार्यक्रम",
+    "Tree Plantation Drive": "वृक्षारोपण अभियान",
+    "Social & Public Activities": "सामाजिक एवं जन कार्य"
+  };
+
+  const albumFolderNames = {
+    "Media Coverage": "media-coverage",
+    "Public Rally Events": "public-rally-events",
+    "Cleanliness Campaign": "cleanliness-campaign",
+    "Community Distribution Program": "community-distribution-program",
+    "Tree Plantation Drive": "tree-plantation-drive",
+    "Social & Public Activities": "social-and-public-activities"
+  };
 
   const ALBUMS_PER_PAGE = 6;
   let isExpanded = false;
@@ -144,11 +153,10 @@ const albumTranslations = {
   }
 
   function getMediaPath(albumName, filename) {
-    // Correct case for the 'Gallery' folder on case-sensitive servers
-    // and properly encode spaces and special characters (&, etc.) in segments
-    const encodedAlbum = encodeURIComponent(albumName);
+    // Get clean web-safe folder name without spaces or special characters
+    const folderName = albumFolderNames[albumName] || albumName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
     const encodedFile = encodeURIComponent(filename);
-    const path = `Gallery/${encodedAlbum}/${encodedFile}`;
+    const path = `Gallery/${folderName}/${encodedFile}`;
     // Debugging: Log generated path
     console.log("Generated path:", path);
     return path;
@@ -291,12 +299,12 @@ const albumTranslations = {
 
       if (isVid) {
         el.innerHTML = `
-          <video src="${path}" class="lazy" muted playsinline></video>
+          <video src="${path}" class="lazy" muted playsinline onerror="console.error('Failed to load video at:', this.src);"></video>
           <div class="video-indicator">
             <svg viewBox="0 0 24 24" fill="white" width="32" height="32"><path d="M8 5v14l11-7z"/></svg>
           </div>`;
       } else {
-        el.innerHTML = `<img src="${path}" alt="Photo ${index + 1}" loading="lazy" onerror="console.error('Missing photo file:', this.src); this.style.display='none';">`;
+        el.innerHTML = `<img src="${path}" alt="Photo ${index + 1}" loading="lazy" onerror="console.error('Failed to load image at:', this.src); console.log('Check if file exists at:', '${path}'); this.style.display='none';">`;
       }
 
       el.addEventListener('click', () => openLightbox(index));
@@ -430,20 +438,20 @@ const albumTranslations = {
   }
 
   // Init
-  
+
   window.Gallery = {
-    onLanguageChange: function() {
+    onLanguageChange: function () {
       if (currentAlbumKey) {
-          const isHi = document.documentElement.lang === 'hi';
-          const translatedAlbumName = isHi ? (albumTranslations[currentAlbumKey] || currentAlbumKey) : currentAlbumKey;
-          const albumViewTitle = document.getElementById('albumViewTitle');
-          if (albumViewTitle) {
-              albumViewTitle.innerHTML = `<span class="album-breadcrumb">
+        const isHi = document.documentElement.lang === 'hi';
+        const translatedAlbumName = isHi ? (albumTranslations[currentAlbumKey] || currentAlbumKey) : currentAlbumKey;
+        const albumViewTitle = document.getElementById('albumViewTitle');
+        if (albumViewTitle) {
+          albumViewTitle.innerHTML = `<span class="album-breadcrumb">
                 <span class="hi-text">${isHi ? 'मुखपृष्ठ' : 'Home'}</span> > 
                 <span class="hi-text">${isHi ? 'गैलरी' : 'Gallery'}</span> > 
                 <span class="current" data-en="${currentAlbumKey}" data-hi="${albumTranslations[currentAlbumKey] || currentAlbumKey}">${translatedAlbumName}</span>
               </span>`;
-          }
+        }
       }
     }
   };
