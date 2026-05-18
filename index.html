@@ -56,10 +56,10 @@
         <li role="none"><a href="#home" class="nav-link active" role="menuitem" data-hi="मुखपृष्ठ"
             data-en="Home">मुखपृष्ठ</a></li>
         <li role="none"><a href="#about" class="nav-link" role="menuitem" data-hi="परिचय" data-en="About">परिचय</a></li>
-        <li role="none"><a href="#journey" class="nav-link" role="menuitem" data-hi="यात्रा"
-            data-en="Journey">यात्रा</a></li>
         <li role="none"><a href="#achievements" class="nav-link" role="menuitem" data-hi="उपलब्धियां"
             data-en="Achievements">उपलब्धियां</a></li>
+        <li role="none"><a href="#journey" class="nav-link" role="menuitem" data-hi="यात्रा"
+            data-en="Journey">यात्रा</a></li>
         <li role="none"><a href="#social-work" class="nav-link" role="menuitem" data-hi="सामाजिक कार्य"
             data-en="Social Work">सामाजिक कार्य</a></li>
         <li role="none"><a href="#events" class="nav-link" role="menuitem" data-hi="जन आयोजन" data-en="Events">जन
@@ -143,7 +143,10 @@
         <div class="hero-text">
           <div class="hero-badge animate-on-scroll" data-animation="fadeIn" data-delay="0.1">
             <span class="hero-badge-dot" aria-hidden="true"></span>
-            <span data-hi="भाजपा किसान मोर्चा" data-en="BJP Kisan Morcha">भाजपा किसान मोर्चा</span>
+            <span data-hi="जिला अध्यक्ष भाजपा किसान मोर्चा छिंदवाड़ा"
+              data-en="District President, BJP Kisan Morcha, Chhindwara">जिला अध्यक्ष भाजपा
+              किसान मोर्चा
+              छिंदवाड़ा</span>
           </div>
 
           <p class="hero-motto animate-on-scroll" data-animation="slideUp" data-delay="0.2">
@@ -264,7 +267,7 @@
               </div>
               <div class="detail-row animate-on-scroll" data-animation="slideUp" data-delay="0.3">
                 <span class="detail-label" data-hi="मोबाइल" data-en="Mobile">मोबाइल</span>
-                <span class="detail-value">9893108624</span>
+                <a href="tel:+919893108624" class="contact-value">9893108624</a>
               </div>
               <div class="detail-row animate-on-scroll" data-animation="slideUp" data-delay="0.35">
                 <span class="detail-label" data-hi="ई-मेल" data-en="Email">ई-मेल</span>
@@ -349,7 +352,8 @@
                 <path d="M16 19v2" />
               </svg>
             </div>
-            <span class="counter-number" data-target="1000" data-suffix="+" style="color: #4CAF50;">0</span>
+            <span class="counter-number" data-target="0" data-suffix="" data-text="अनेक"
+              style="color: #4CAF50; font-size: 2.5rem;">अनेक</span>
             <span class="counter-label" data-hi="वृक्षारोपण अभियान" data-en="Tree Plantation Activities">वृक्षारोपण
               अभियान</span>
           </div>
@@ -439,9 +443,11 @@
             <div class="timeline-card animate-on-scroll" data-animation="slideRight">
               <span class="timeline-year">1999 - 2004</span>
               <h3 class="timeline-title" data-hi="अध्यक्ष" data-en="President">अध्यक्ष</h3>
-              <p class="timeline-desc" data-hi="भाजपा युवा मोर्चा मंडल चौरई (कुंडा, चौरई नगर, चौरई ग्रामीण)"
-                data-en="BJP Yuva Morcha Mandal Chourai (Joint: Kunda, Chourai Nagar, Chourai Rural)">भाजपा युवा मोर्चा
-                मंडल चौरई (कुंडा, चौरई नगर, चौरई ग्रामीण)</p>
+              <p class="timeline-desc"
+                data-hi="भाजपा युवा मोर्चा मंडल चौरई (कुंडा, चौरई नगर, चौरई ग्रामीण,संयुक्त मंडल)"
+                data-en="BJP Yuva Morcha Mandal Chourai (Joint: Kunda, Chourai Nagar, Chourai Rural, Joint Mandal)">
+                भाजपा युवा मोर्चा
+                मंडल चौरई (कुंडा, चौरई नगर, चौरई ग्रामीण, संयुक्त मंडल)</p>
             </div>
           </div>
 
@@ -732,7 +738,8 @@
           <div class="seva-card animate-on-scroll" data-animation="slideRight" data-delay="0.2">
             <h3 class="seva-card-title">भाजपा मण्डल अध्यक्ष के रूप में</h3>
             <ul class="seva-list">
-              <li><span class="seva-num">1</span> जनसंवाद यात्रा — सरकारी योजनाएं घर-घर तक</li>
+              <li><span class="seva-num">1</span> जनसंवाद यात्रा — जनसंपर्क पदयात्रा निकालकर घर-घर तक केंद्र एवं राज्य
+                सरकार की योजनाओं का प्रचार-प्रसार</li>
               <li><span class="seva-num">2</span> निःशुल्क पौधे वितरण — वृक्षारोपण अभियान</li>
               <li><span class="seva-num">3</span> निःशुल्क स्वास्थ्य एवं नेत्र शिविर</li>
               <li><span class="seva-num">4</span> ब्लड डोनेशन कैम्प</li>
@@ -888,8 +895,8 @@
 
         <p class="gallery-empty" id="galleryEmpty" hidden>
           <span
-            data-hi="अभी कोई एल्बम नहीं है। gallery/ में इवेंट फ़ोल्डर बनाएं, फ़ोटो डालें, फिर python scripts/build-gallery.py चलाएं।"
-            data-en="No albums yet. Add event folders in gallery/, add photos, then run python scripts/build-gallery.py.">अभी
+            data-hi="अभी कोई एल्बम नहीं है। Gallery/ में इवेंट फ़ोल्डर बनाएं, फ़ोटो डालें, फिर python scripts/build-gallery.py चलाएं।"
+            data-en="No albums yet. Add event folders in Gallery/, add photos, then run python scripts/build-gallery.py.">अभी
             कोई एल्बम नहीं है।</span>
         </p>
 
@@ -1065,8 +1072,10 @@
                   <span class="bio-family-role" data-hi="पत्नी" data-en="Wife">पत्नी</span>
                   <span class="bio-family-name" data-hi="श्रीमती सीमा रघुवंशी" data-en="Smt. Seema Raghuwanshi">श्रीमती
                     सीमा रघुवंशी</span>
-                  <span class="bio-family-note" data-hi="समाज सेविका, दुर्गावाहिनी सदस्य"
-                    data-en="Social Worker, Durga Vahini Member">समाज सेविका, दुर्गावाहिनी सदस्य</span>
+                  <span class="bio-family-note" data-hi="समाज सेविका, कार्यकारिणी सदस्य भाजपा चौरई ग्रामीण मंडल"
+                    data-en="Social Worker, Executive Member, BJP Chourai Rural Mandal">समाज सेविका, कार्यकारिणी सदस्य
+                    भाजपा
+                    चौरई ग्रामीण मंडल</span>
                 </div>
                 <div class="bio-family-item">
                   <span class="bio-family-role" data-hi="पुत्री" data-en="Daughter">पुत्री</span>

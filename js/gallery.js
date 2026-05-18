@@ -144,7 +144,11 @@ const albumTranslations = {
   }
 
   function getMediaPath(albumName, filename) {
-    const path = `gallery/${albumName}/${filename}`;
+    // Correct case for the 'Gallery' folder on case-sensitive servers
+    // and properly encode spaces and special characters (&, etc.) in segments
+    const encodedAlbum = encodeURIComponent(albumName);
+    const encodedFile = encodeURIComponent(filename);
+    const path = `Gallery/${encodedAlbum}/${encodedFile}`;
     // Debugging: Log generated path
     console.log("Generated path:", path);
     return path;
