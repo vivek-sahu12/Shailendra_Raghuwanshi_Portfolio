@@ -28,17 +28,13 @@ const galleryAlbums = {
     "26.jpeg", "27.jpeg", "28.jpeg", "29.jpeg", "30.jpeg",
     "31.jpeg", "32.jpeg", "33.jpeg", "34.jpeg", "35.jpeg",
     "36.jpeg", "37.jpeg", "38.jpeg", "39.jpeg", "40.jpeg",
-    "41.jpeg", "42.jpeg"
+    "41.jpeg", "42.jpeg", "43.jpeg"
   ],
 
   "Cleanliness Campaign": [
     "1.jpeg",
     "2.jpeg",
-    "3.jpeg",
-    "4.jpeg",
-    "5.jpeg",
-    "6.jpeg",
-    "7.jpeg"
+    "3.jpeg"
   ],
 
   "Community Distribution Program": [
@@ -54,7 +50,10 @@ const galleryAlbums = {
   ],
 
   "Tree Plantation Drive": [
-    "1.jpeg"
+    "1.jpeg",
+
+    "3.jpeg",
+    "4.jpeg"
   ],
 
   "Social & Public Activities": [
@@ -64,7 +63,7 @@ const galleryAlbums = {
     "16.jpeg", "17.jpeg", "18.jpeg", "19.jpeg", "20.jpeg",
     "21.jpeg", "22.jpeg", "23.jpeg", "24.jpeg", "25.jpeg",
     "26.jpeg", "27.jpeg", "28.jpeg", "29.jpeg", "30.jpeg",
-    "31.jpeg", "32.jpeg", "33.jpeg", "34.jpeg"
+    "31.jpeg", "32.jpeg", "33.jpeg", "34.jpeg", "35.jpeg"
   ]
 
 };
