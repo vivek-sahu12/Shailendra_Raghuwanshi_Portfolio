@@ -1591,17 +1591,9 @@
     </svg>
   </button>
 
-  <!-- JavaScript -->
-  <script>
-    // Cache-busting script loader to ensure new gallery albums always show online
-    const loadScript = (src) => {
-      const s = document.createElement('script');
-      s.src = src + '?v=' + new Date().getTime();
-      document.body.appendChild(s);
-    };
-    loadScript('js/gallery.js');
-    loadScript('js/script.js');
-  </script>
+  <!-- JavaScript — ?v= is bumped on each deploy to bust CDN/browser caches -->
+  <script src="js/gallery.js?v=20260519"></script>
+  <script src="js/script.js?v=20260519"></script>
 
 </body>
 

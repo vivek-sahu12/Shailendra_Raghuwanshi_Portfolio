@@ -404,7 +404,7 @@ const galleryAlbums = {
       // Add Download Button
       const safeAlbumName = albumName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
       const downloadFilename = `${safeAlbumName}-${index + 1}${filename.substring(filename.lastIndexOf('.'))}`;
-      
+
       const downloadBtn = document.createElement('a');
       downloadBtn.className = 'download-btn';
       downloadBtn.href = path;
