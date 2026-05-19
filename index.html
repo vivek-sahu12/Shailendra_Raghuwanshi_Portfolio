@@ -1536,6 +1536,14 @@
         <line x1="6" y1="6" x2="18" y2="18" />
       </svg>
     </button>
+    <a href="#" download class="lightbox-download" id="lightboxDownload" aria-label="डाउनलोड करें" title="Download">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" y1="15" x2="12" y2="3" />
+      </svg>
+    </a>
     <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="पिछली">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
         stroke-linecap="round" stroke-linejoin="round">
@@ -1584,8 +1592,16 @@
   </button>
 
   <!-- JavaScript -->
-  <script src="js/gallery.js"></script>
-  <script src="js/script.js"></script>
+  <script>
+    // Cache-busting script loader to ensure new gallery albums always show online
+    const loadScript = (src) => {
+      const s = document.createElement('script');
+      s.src = src + '?v=' + new Date().getTime();
+      document.body.appendChild(s);
+    };
+    loadScript('js/gallery.js');
+    loadScript('js/script.js');
+  </script>
 
 </body>
 
