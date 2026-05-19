@@ -16,7 +16,19 @@ const galleryAlbums = {
     "31.jpg", "32.jpg", "33.jpg", "34.jpg", "35.jpg",
     "36.jpg", "37.jpg", "38.jpg", "39.jpg", "40.jpg",
     "41.jpg", "42.jpg", "43.jpg", "44.jpg", "45.jpg",
-    "46.jpg", "47.jpg", "48.jpg", "49.jpg"
+    "46.jpg", "47.jpg", "48.jpg", "49.jpg", "50.jpg",
+    "51.jpg", "52.jpg"
+  ],
+
+  "Tree Plantation Drive": [
+    "1.jpeg",
+    "2.jpeg",
+    "3.jpeg",
+    "4.jpeg",
+    "5.jpeg",
+    "6.jpeg",
+    "7.jpeg",
+    "8.jpeg"
   ],
 
   "Public Rally Events": [
@@ -28,8 +40,47 @@ const galleryAlbums = {
     "26.jpeg", "27.jpeg", "28.jpeg", "29.jpeg", "30.jpeg",
     "31.jpeg", "32.jpeg", "33.jpeg", "34.jpeg", "35.jpeg",
     "36.jpeg", "37.jpeg", "38.jpeg", "39.jpeg", "40.jpeg",
-    "41.jpeg", "42.jpeg", "43.jpeg"
+    "41.jpeg", "42.jpeg", "43.jpeg", "44.jpeg", "45.jpeg",
+    "46.jpeg", "47.jpeg", "48.jpeg", "49.jpeg", "50.jpeg",
+    "51.jpeg", "52.jpeg", "53.jpeg", "54.jpeg", "55.jpeg",
+    "56.jpeg", "57.jpeg", "58.jpeg", "59.jpeg", "60.jpeg",
+    "61.jpeg", "62.jpeg", "63.jpeg", "64.jpeg", "65.jpeg",
+    "66.jpeg"
   ],
+
+
+  "Social & Public Activities": [
+    "1.jpeg", "2.jpeg", "3.jpeg", "4.jpeg", "5.jpeg",
+    "6.jpeg", "7.jpeg", "8.jpeg", "9.jpeg", "10.jpeg",
+    "11.jpeg", "12.jpeg", "13.jpeg", "14.jpeg", "15.jpeg",
+    "16.jpeg", "17.jpeg", "18.jpeg", "19.jpeg", "20.jpeg",
+    "21.jpeg", "22.jpeg", "23.jpeg", "24.jpeg", "25.jpeg",
+    "26.jpeg", "27.jpeg", "28.jpeg", "29.jpeg", "30.jpeg",
+    "31.jpeg", "32.jpeg", "33.jpeg", "34.jpeg", "35.jpeg",
+    "36.jpeg", "37.jpeg", "38.jpeg", "39.jpeg", "40.jpeg",
+    "41.jpeg", "42.jpeg", "43.jpeg", "44.jpeg", "45.jpeg",
+    "46.jpeg", "47.jpeg", "48.jpeg", "49.jpeg"
+  ],
+
+  "Self": [
+    "1.png",
+    "2.jpg",
+    "3.jpg",
+    "4.jpg",
+    "5.jpg",
+    "6.jpg",
+    "7.jpg",
+    "8.jpg"
+
+  ],
+
+  "Videos": [
+    "1.mp4",
+    "2.mp4"
+  ],
+
+
+
 
   "Cleanliness Campaign": [
     "1.jpeg",
@@ -46,25 +97,18 @@ const galleryAlbums = {
     "6.jpeg",
     "7.jpeg",
     "8.jpeg",
-    "9.jpeg"
+    "9.jpeg",
+    "10.jpeg",
+    "11.jpeg"
   ],
 
-  "Tree Plantation Drive": [
-    "1.jpeg",
-
-    "3.jpeg",
-    "4.jpeg"
-  ],
-
-  "Social & Public Activities": [
+  "Others": [
     "1.jpeg", "2.jpeg", "3.jpeg", "4.jpeg", "5.jpeg",
     "6.jpeg", "7.jpeg", "8.jpeg", "9.jpeg", "10.jpeg",
     "11.jpeg", "12.jpeg", "13.jpeg", "14.jpeg", "15.jpeg",
     "16.jpeg", "17.jpeg", "18.jpeg", "19.jpeg", "20.jpeg",
     "21.jpeg", "22.jpeg", "23.jpeg", "24.jpeg", "25.jpeg",
-    "26.jpeg", "27.jpeg", "28.jpeg", "29.jpeg", "30.jpeg",
-    "31.jpeg", "32.jpeg", "33.jpeg", "34.jpeg", "35.jpeg"
-  ]
+    "26.jpeg", "27.jpeg", "28.jpeg", "29.jpeg"]
 
 };
 
@@ -79,7 +123,10 @@ const galleryAlbums = {
     "Cleanliness Campaign": "स्वच्छता अभियान",
     "Community Distribution Program": "सामुदायिक वितरण कार्यक्रम",
     "Tree Plantation Drive": "वृक्षारोपण अभियान",
-    "Social & Public Activities": "सामाजिक एवं जन कार्य"
+    "Social & Public Activities": "सामाजिक एवं जन कार्य",
+    "Others": "अन्य",
+    "Videos": "वीडियो",
+    "Self": "स्वयं"
   };
 
   const albumFolderNames = {
@@ -88,7 +135,10 @@ const galleryAlbums = {
     "Cleanliness Campaign": "cleanliness-campaign",
     "Community Distribution Program": "community-distribution-program",
     "Tree Plantation Drive": "tree-plantation-drive",
-    "Social & Public Activities": "social-and-public-activities"
+    "Social & Public Activities": "social-and-public-activities",
+    "Others": "others",
+    "Videos": "videos",
+    "Self": "self"
   };
 
   const ALBUMS_PER_PAGE = 6;
@@ -111,7 +161,7 @@ const galleryAlbums = {
 
   // Lightbox DOM
   const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightboxImg');
+  // Removed const lightboxImg from here since it gets replaced dynamically
   const lightboxClose = document.getElementById('lightboxClose');
   const lightboxPrev = document.getElementById('lightboxPrev');
   const lightboxNext = document.getElementById('lightboxNext');
@@ -120,9 +170,33 @@ const galleryAlbums = {
   let currentAlbumKey = null;
   let currentMediaIndex = 0;
   let currentAlbumMedia = [];
+  let allAlbumKeys = [];
+  let albumsRendered = 0;
 
   // Hide loading
   if (galleryLoading) galleryLoading.style.display = 'none';
+
+  // Handle popstate for back button
+  window.addEventListener('popstate', function (e) {
+    const hash = window.location.hash;
+
+    if (hash === '#album') {
+      // We are at album level. Close lightbox if it's open.
+      if (lightbox.classList.contains('active')) {
+        closeLightbox(true);
+      }
+    } else if (hash === '#lightbox') {
+      // At lightbox level, do nothing.
+    } else {
+      // Hash is empty or different. Close both.
+      if (lightbox.classList.contains('active')) {
+        closeLightbox(true);
+      }
+      if (albumView.classList.contains('active')) {
+        closeAlbum(true);
+      }
+    }
+  });
 
   function initGallery() {
     const albumKeys = Object.keys(galleryAlbums);
@@ -139,10 +213,10 @@ const galleryAlbums = {
       viewMoreBtn.addEventListener('click', toggleMoreAlbums);
     }
 
-    albumViewBack.addEventListener('click', closeAlbum);
+    albumViewBack.addEventListener('click', () => closeAlbum(false));
 
     // Lightbox events
-    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxClose.addEventListener('click', () => closeLightbox(false));
     lightboxPrev.addEventListener('click', showPrevMedia);
     lightboxNext.addEventListener('click', showNextMedia);
 
@@ -178,9 +252,15 @@ const galleryAlbums = {
 
     let coverHtml = '';
     if (coverFile && !isVideo(coverFile)) {
-      coverHtml = `<img src="${coverPath}" alt="${albumName}" class="album-cover-img" loading="lazy" onerror="console.error('Missing cover file:', this.src); this.parentElement.classList.add('cover-missing'); this.style.display='none';">`;
+      // Implement Thumbnail Fallback
+      const folderName = albumFolderNames[albumName] || albumName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      const thumbFile = coverFile.substring(0, coverFile.lastIndexOf('.')) + '.webp';
+      const thumbPath = `Gallery/${folderName}/thumbnails/${encodeURIComponent(thumbFile)}`;
+
+      coverHtml = `<img src="${thumbPath}" alt="${albumName}" class="album-cover-img" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='${coverPath}';">`;
     } else if (coverFile && isVideo(coverFile)) {
-      coverHtml = `<video src="${coverPath}" class="album-cover-img" muted playsinline></video>`;
+      // Load only video metadata/first frame
+      coverHtml = `<video src="${coverPath}#t=0.1" class="album-cover-img" muted playsinline preload="metadata"></video>`;
     }
 
     card.innerHTML = `
@@ -211,39 +291,41 @@ const galleryAlbums = {
     return card;
   }
 
-  function renderAlbums(albumKeys) {
-    albumsGrid.innerHTML = '';
-    albumsGridMore.innerHTML = '';
+  function renderNextAlbums(count, targetGrid) {
+    const keysToRender = allAlbumKeys.slice(albumsRendered, albumsRendered + count);
 
-    albumKeys.forEach((key, index) => {
+    keysToRender.forEach((key, index) => {
       const card = createAlbumCard(key, galleryAlbums[key]);
-
-      // Delay stagger
       const delay = (index % 3) * 0.1;
       card.style.animationDelay = `${delay}s`;
+      targetGrid.appendChild(card);
 
-      if (index < ALBUMS_PER_PAGE) {
-        albumsGrid.appendChild(card);
+      if (window.IntersectionObserver) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('animated');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+        observer.observe(card);
       } else {
-        albumsGridMore.appendChild(card);
+        card.classList.add('animated');
       }
     });
 
-    // Trigger scroll animations for new elements
-    if (window.IntersectionObserver) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animated');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.1 });
+    albumsRendered += keysToRender.length;
+  }
 
-      document.querySelectorAll('.album-card').forEach(el => observer.observe(el));
-    } else {
-      document.querySelectorAll('.album-card').forEach(el => el.classList.add('animated'));
-    }
+  function renderAlbums(albumKeys) {
+    allAlbumKeys = albumKeys;
+    albumsGrid.innerHTML = '';
+    albumsGridMore.innerHTML = '';
+    albumsRendered = 0;
+
+    // Initially load only ALBUMS_PER_PAGE
+    renderNextAlbums(ALBUMS_PER_PAGE, albumsGrid);
   }
 
   function toggleMoreAlbums() {
@@ -252,6 +334,11 @@ const galleryAlbums = {
     const btnSpan = viewMoreBtn.querySelector('span');
 
     if (isExpanded) {
+      // Lazy load remaining albums on demand
+      if (albumsRendered < allAlbumKeys.length) {
+        renderNextAlbums(allAlbumKeys.length - albumsRendered, albumsGridMore);
+      }
+
       albumsGridMore.classList.add('is-visible');
       albumsGridMore.setAttribute('aria-hidden', 'false');
       viewMoreBtn.classList.add('is-expanded');
@@ -275,6 +362,9 @@ const galleryAlbums = {
     currentAlbumKey = albumName;
     currentAlbumMedia = mediaList;
 
+    // Push history state
+    history.pushState({ modal: 'album' }, '', '#album');
+
     const isHi = document.documentElement.lang === 'hi';
 
     // Breadcrumb style title
@@ -284,7 +374,6 @@ const galleryAlbums = {
       <span class="hi-text">${isHi ? 'गैलरी' : 'Gallery'}</span> > 
       <span class="current" data-en="${albumName}" data-hi="${albumTranslations[albumName] || albumName}">${translatedAlbumName}</span>
     </span>`;
-    // albumViewCount.textContent = `${mediaList.length} ${isHi ? 'मीडिया' : 'Media'}`;
 
     albumPhotos.innerHTML = '';
 
@@ -298,12 +387,16 @@ const galleryAlbums = {
 
       if (isVid) {
         el.innerHTML = `
-          <video src="${path}" class="lazy" muted playsinline onerror="console.error('Failed to load video at:', this.src);"></video>
+          <video src="${path}#t=0.1" class="lazy" muted playsinline preload="metadata" onerror="console.error('Failed to load video at:', this.src);"></video>
           <div class="video-indicator">
             <svg viewBox="0 0 24 24" fill="white" width="32" height="32"><path d="M8 5v14l11-7z"/></svg>
           </div>`;
       } else {
-        el.innerHTML = `<img src="${path}" alt="Photo ${index + 1}" loading="lazy" onerror="console.error('Failed to load image at:', this.src); console.log('Check if file exists at:', '${path}'); this.style.display='none';">`;
+        const folderName = albumFolderNames[albumName] || albumName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        const thumbFile = filename.substring(0, filename.lastIndexOf('.')) + '.webp';
+        const thumbPath = `Gallery/${folderName}/thumbnails/${encodeURIComponent(thumbFile)}`;
+
+        el.innerHTML = `<img src="${thumbPath}" alt="Photo ${index + 1}" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='${path}';">`;
       }
 
       el.addEventListener('click', () => openLightbox(index));
@@ -315,28 +408,57 @@ const galleryAlbums = {
     document.body.style.overflow = 'hidden';
   }
 
-  function closeAlbum() {
+  function closeAlbum(fromPopState = false) {
     albumView.classList.remove('active');
     albumView.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
     currentAlbumKey = null;
     currentAlbumMedia = [];
+
+    // Cleanup video to stop background playback
+    const videos = albumPhotos.querySelectorAll('video');
+    videos.forEach(video => {
+      video.pause();
+      video.currentTime = 0;
+      video.removeAttribute('src'); // Force unload
+      video.load();
+    });
+
+    albumPhotos.innerHTML = ''; // Clear memory
+
+    if (fromPopState !== true && window.location.hash === '#album') {
+      history.back();
+    }
   }
 
   // Lightbox functionality
   function openLightbox(index) {
     currentMediaIndex = index;
+    history.pushState({ modal: 'lightbox' }, '', '#lightbox');
     updateLightboxMedia();
     lightbox.classList.add('active');
     lightbox.setAttribute('aria-hidden', 'false');
   }
 
-  function closeLightbox() {
+  function closeLightbox(fromPopState = false) {
     lightbox.classList.remove('active');
     lightbox.setAttribute('aria-hidden', 'true');
-    // Stop video if playing
-    if (lightboxImg.tagName === 'VIDEO') {
-      lightboxImg.pause();
+
+    // Stop video completely
+    const currentMedia = document.getElementById('lightboxImg');
+    if (currentMedia && currentMedia.tagName === 'VIDEO') {
+      currentMedia.pause();
+      currentMedia.currentTime = 0;
+      currentMedia.removeAttribute('src');
+      currentMedia.load();
+    }
+
+    // Remove element completely
+    const contentBox = document.querySelector('.lightbox-content');
+    contentBox.innerHTML = '';
+
+    if (fromPopState !== true && window.location.hash === '#lightbox') {
+      history.back();
     }
   }
 
@@ -378,6 +500,7 @@ const galleryAlbums = {
       mediaEl.src = path;
       mediaEl.controls = true;
       mediaEl.autoplay = true;
+      mediaEl.playsInline = true;
     } else {
       mediaEl = document.createElement('img');
       mediaEl.src = path;

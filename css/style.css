@@ -3138,3 +3138,14 @@ img {
   color: #ff6b00;
   text-decoration: underline;
 }
+
+.social-x {
+  background-color: #000000;
+  border-radius: 12px;
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
